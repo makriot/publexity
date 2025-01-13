@@ -66,7 +66,10 @@ class GoogleScholarFetcher(Fetcher):
             logger.warning(f"Bad authors string: {authors}")
             extracted_authors = authors
 
-        cited = first_article.find(attrs={"class": "gs_fl gs_flb"}).find_all("a")[2].get_text()
+        try:
+            cited = first_article.find(attrs={"class": "gs_fl gs_flb"}).find_all("a")[2].get_text()
+        except AttributeError:
+            cited = cited = first_article.find(attrs={"class": "gs_fl gs_flb gs_invis"}).find_all("a")[2].get_text()
         result = re.search(r"\d+", cited)
         if result:
             extracted_cited = result.group()
@@ -77,7 +80,7 @@ class GoogleScholarFetcher(Fetcher):
         except ValueError as e:
             logger.warning(f"ValueError in extracting cited -- invalid integer value: {e}")
             extracted_cited = 0
-        
+
         if None in [source_ref, pdf_ref, naming_text,
                     extracted_authors, summarized, extracted_cited]:
             return None
@@ -99,9 +102,10 @@ class GoogleScholarFetcher(Fetcher):
             soup = BeautifulSoup(await response.text(), 'html.parser')
             try:
                 article = cls.extract_first_article(soup)
-            except AttributeError:
+            except AttributeError as err:
+                logger.warning(f"AttributeError in parsing Google Scholar page: {err}")
                 return None
-            
+
             return article
 
 

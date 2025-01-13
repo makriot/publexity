@@ -46,7 +46,7 @@ class DatabaseSQLite:
         '''
         
         try:
-            await self.conn.execute('BEGIN')  # Start a transaction
+            await self.conn.execute('BEGIN')
             for article in articles:
                 if article:
                     await self.conn.execute(sql, (
@@ -59,7 +59,7 @@ class DatabaseSQLite:
                         article.summarized,
                         article.cited
                     ))
-            await self.conn.commit()  # Commit after all inserts succeed
+            await self.conn.commit()
         except Exception as e:
-            await self.conn.rollback()  # Rollback on error
-            logger.warning(f"Error inserting data: {e}")  # Log the error
+            await self.conn.rollback()
+            logger.warning(f"Error inserting data: {e}")

@@ -36,3 +36,13 @@ The bot will search across several reputable platforms:
 - Explore options for integrating a retrieval-augmented generation (RAG) model for enhanced data retrieval capabilities.
 
 This project represents an innovative approach to academic research, creating a personalized experience that not only facilitates article discovery but also visualizes user's interests through tag clouds or thematic classifications.
+
+## Launch bot
+With Telegram:
+
+```export BOT_TOKEN=<token>```
+```python main_tgbot.py```
+
+Or, you can launch it with FastAPI:
+
+```fastapi dev main_fastapi.py```
