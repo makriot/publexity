@@ -47,7 +47,7 @@ export BOT_TOKEN=<token>
 python main_tgbot.py
 ```
 
-Or, you can launch it with FastAPI:
+With FastAPI:
 
 ```bash
 fastapi dev main_fastapi.py
