@@ -1,5 +1,4 @@
 import re
-import sys
 import asyncio
 import aiohttp
 import logging
@@ -13,7 +12,9 @@ from src.objects import ArticleHandler
 
 # Random address for accessing resources
 HEADERS = {
-    'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'
+    'User-Agent': ('Mozilla/5.0 (Windows NT 10.0; Win64; x64) '
+                   'AppleWebKit/537.36 (KHTML, like Gecko) '
+                   'Chrome/91.0.4472.124 Safari/537.36')
 }
 
 logger = logging.getLogger(__name__)
@@ -35,7 +36,8 @@ class Fetcher(ABC):
 
     @classmethod
     @abstractmethod
-    async def fetch_url(cls, session: aiohttp.ClientSession, query: str) -> ArticleHandler:
+    async def fetch_url(cls, session: aiohttp.ClientSession,
+                        query: str) -> ArticleHandler:
         pass
 
 
@@ -67,9 +69,13 @@ class GoogleScholarFetcher(Fetcher):
             extracted_authors = authors
 
         try:
-            cited = first_article.find(attrs={"class": "gs_fl gs_flb"}).find_all("a")[2].get_text()
+            cited = first_article.find(
+                attrs={"class": "gs_fl gs_flb"}
+            ).find_all("a")[2].get_text()
         except AttributeError:
-            cited = cited = first_article.find(attrs={"class": "gs_fl gs_flb gs_invis"}).find_all("a")[2].get_text()
+            cited = cited = first_article.find(
+                attrs={"class": "gs_fl gs_flb gs_invis"}
+            ).find_all("a")[2].get_text()
         result = re.search(r"\d+", cited)
         if result:
             extracted_cited = result.group()
@@ -78,7 +84,9 @@ class GoogleScholarFetcher(Fetcher):
         try:
             extracted_cited = int(extracted_cited)
         except ValueError as e:
-            logger.warning(f"ValueError in extracting cited -- invalid integer value: {e}")
+            logger.warning(
+                f"ValueError in extracting cited -- invalid integer value: {e}"
+            )
             extracted_cited = 0
 
         if None in [source_ref, pdf_ref, naming_text,
@@ -94,16 +102,18 @@ class GoogleScholarFetcher(Fetcher):
             cited=extracted_cited
         )
 
-
     @classmethod
-    async def get_first_article(cls, session: aiohttp.ClientSession, query: str) -> ArticleHandler | None:
+    async def get_first_article(cls, session: aiohttp.ClientSession,
+                                query: str) -> ArticleHandler | None:
         url = cls.get_url(query)
         async with session.get(url, headers=HEADERS) as response:
             soup = BeautifulSoup(await response.text(), 'html.parser')
             try:
                 article = cls.extract_first_article(soup)
             except AttributeError as err:
-                logger.warning(f"AttributeError in parsing Google Scholar page: {err}")
+                logger.warning(
+                    f"AttributeError in parsing Google Scholar page: {err}"
+                )
                 return None
 
             return article
@@ -123,7 +133,9 @@ class ArticlesRetriever:
 
     async def fetch_sources(self, query: str) -> List[ArticleHandler]:
         if self.session is None:
-            raise FunctionNotCalledError("create_session() method wasn't called")
+            raise FunctionNotCalledError(
+                "create_session() method wasn't called"
+            )
         tasks = [fetcher.get_first_article(self.session, query)
                  for fetcher in self.fetchers]
         responses = await asyncio.gather(*tasks)

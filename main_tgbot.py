@@ -21,12 +21,15 @@ database = DatabaseSQLite('articles.db')
 
 @dp.message(Command("start"))
 async def send_welcome(message: types.Message):
-    await message.answer("Hi!\nI'm Publexity bot!\nI find articles and retrieve key information and links to sources by your text query.")
+    await message.answer("Hi!\nI'm Publexity bot!\nI find articles and "
+                         "retrieve key information and links to sources"
+                         " by your text query.")
 
 
 @dp.message(Command("help"))
 async def send_help(message: types.Message):
-    await message.answer("/start — welcome message\n/help — this message\nSend any text query to get article!")
+    await message.answer("/start — welcome message\n/help — this message\n"
+                         "Send any text query to get article!")
 
 
 @dp.message()
@@ -37,7 +40,7 @@ async def retrieve_articles(message: types.Message):
 
     content = format_articles(articles)
     await message.reply(**content.as_kwargs())
-    
+
 
 async def main():
     await database.open_connection()

@@ -17,7 +17,8 @@ def format_article(article: ArticleHandler) -> Text:
         )
     if article.url and article.pdf_url:
         components.append(
-            as_line(TextLink("pdf", url=article.pdf_url), " | ", TextLink("source", url=article.url))
+            as_line(TextLink("pdf", url=article.pdf_url), " | ",
+                    TextLink("source", url=article.url))
         )
     elif article.url:
         components.append(

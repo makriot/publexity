@@ -1,4 +1,3 @@
-import sys
 import logging
 import aiosqlite
 from typing import List
@@ -14,7 +13,10 @@ class DatabaseSQLite:
         self.conn = None
 
     async def open_connection(self):
-        """Open the database connection and create the table if it doesn't exist."""
+        """
+        Open the database connection and create the table
+        if it doesn't exist.
+        """
         self.conn = await aiosqlite.connect(self.dbname)
         await self.conn.execute('''
         CREATE TABLE IF NOT EXISTS articles (
@@ -36,15 +38,17 @@ class DatabaseSQLite:
         if self.conn:
             await self.conn.close()
 
-    async def insert(self, user_id: int, query: str, articles: List[ArticleHandler]):
+    async def insert(self, user_id: int, query: str,
+                     articles: List[ArticleHandler]):
         """Insert articles into the database with transaction management."""
-        
+
         # Prepare the SQL statement for inserting a single article
-        sql = '''
-        INSERT INTO articles (user_id, query, url, pdf_url, name, authors, summarized, cited) 
+        sql = ('''
+        INSERT INTO articles (user_id, query, url, pdf_url,
+                              name, authors, summarized, cited)
         VALUES (?, ?, ?, ?, ?, ?, ?, ?)
-        '''
-        
+        ''')
+
         try:
             await self.conn.execute('BEGIN')
             for article in articles:
