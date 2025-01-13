@@ -40,9 +40,15 @@ This project represents an innovative approach to academic research, creating a 
 ## Launch bot
 With Telegram:
 
-```export BOT_TOKEN=<token>```
-```python main_tgbot.py```
+```bash
+export BOT_TOKEN=<token>
+```
+```bash
+python main_tgbot.py
+```
 
 Or, you can launch it with FastAPI:
 
-```fastapi dev main_fastapi.py```
+```bash
+fastapi dev main_fastapi.py
+```
