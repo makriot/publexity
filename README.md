@@ -54,3 +54,6 @@ With FastAPI:
 ```bash
 fastapi dev main_fastapi.py
 ```
+
+---
+We welcome new contributors to the project!
