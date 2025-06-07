@@ -24,7 +24,7 @@ The bot should search across several reputable platforms:
 ## Features
 - [x] shows abstract and meta info
 - [x] pdf loading
-- [ ] User History Tracking: Maintain a SQLite database to save user search history.
+- [x] User History Tracking: Maintain a SQLite database to save user search history.
 - [ ] Dynamic Sources Addition: Continuously integrate new sources for parsing, ensuring up-to-date results.
 - [ ] Advanced Summarization: Implement algorithms to extract key sentences from abstracts based on user queries.
 - [ ] Article Aggregation: Combine articles scraped from various sources into cohesive summaries.
