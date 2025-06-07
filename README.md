@@ -22,7 +22,7 @@ The bot should search across several reputable platforms:
 - BeautifulSoup: For parsing HTML content.
 
 ## Features
-- [ ] shows abstract and meta info
+- [x] shows abstract and meta info
 - [x] pdf loading
 - [ ] User History Tracking: Maintain a SQLite database to save user search history.
 - [ ] Dynamic Sources Addition: Continuously integrate new sources for parsing, ensuring up-to-date results.
